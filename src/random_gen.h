@@ -10,6 +10,11 @@
 #include <cmath>              // defines exp(), log(), sqrt(), cos(), sin()
 
 #include <iostream>
+
+#ifndef M_PI
+#define M_PI (2.0*asin(1.0))    // A work around for MinGW or Cygwin
+#endif
+
 using namespace std;
 
 
@@ -20,7 +25,8 @@ using namespace std;
 inline long RANDOM_INT(unsigned long n)
 {
   //assert(n < 2147483648-1); // Unnecessary? Probably...Check that n < 2^31-1
-  return lrand48() % n; //Note: lrand48 returns a number between 0 and 2^31
+  //return lrand48() % n; //Note: lrand48 returns a number between 0 and 2^31
+  return rand() % n; // A work around for MinGW or Cygwin
 }
 
 
@@ -32,7 +38,8 @@ inline long RANDOM_INT(unsigned long n)
 //RANDOM_REAL_0_1() returns uniformly distributed "Real" numbers over [0, 1)
 inline double RANDOM_REAL_0_1()
 {
-  return drand48(); //for some reason this is better than lrand48() / RAND_MAX
+  //return drand48(); //for some reason this is better than lrand48() / RAND_MAX
+  return rand() / RAND_MAX; // A work around for MinGW or Cygwin
 }
 
 
@@ -118,7 +125,8 @@ inline void RANDOM_INIT(long seed=-1)
   if (seed < 0) {
     seed = static_cast<long>(floor(seconds));
   }
-  srand48( seed );
+  //srand48( seed );
+  srand(seed);// A work around for MinGW or Cygwin.
 }
 
 
